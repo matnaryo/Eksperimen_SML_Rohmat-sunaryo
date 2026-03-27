@@ -23,8 +23,20 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install -r requirements.txt
+          pip install --upgrade google-auth google-auth-oauthlib google-auth-httplib2 google-api-python-client -r requirements.txt
 
       - name: Run preprocessing
         run: |
           python preprocessing/automate_Rohmat-sunaryo.py
+
+      - name: Upload to Google Drive
+        env:
+          GDRIVE_REFRESH_TOKEN: ${{ secrets.GDRIVE_REFRESH_TOKEN }}
+          GDRIVE_CLIENT_ID: ${{ secrets.GDRIVE_CLIENT_ID }}
+          GDRIVE_CLIENT_SECRET: ${{ secrets.GDRIVE_CLIENT_SECRET }}
+          GDRIVE_CREDENTIALS: ${{ secrets.GDRIVE_CREDENTIALS }} # Mengambil kredensial dari GitHub Secrets edited
+          GDRIVE_FOLDER_ID: ${{ secrets.GDRIVE_FOLDER_ID }} # Mengambil kredensial dari GitHub Secrets
+          GITHUB_SHA: ${{ github.sha }}
+          GITHUB_REF_NAME: ${{ github.ref_name }}
+        run: |
+          python upload_to_gdrive.py
