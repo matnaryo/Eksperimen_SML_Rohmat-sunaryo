@@ -12,7 +12,7 @@ def main():
 
     upload_model(
         service,
-        "mlruns",
+        "model",
         root_folder_id,
     )
 
