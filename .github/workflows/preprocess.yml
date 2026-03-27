@@ -29,6 +29,12 @@ jobs:
         run: |
           python preprocessing/automate_Rohmat-sunaryo.py
 
+      - name: Cek file
+        run: |
+          print(os.getcwd())
+          print(os.listdir("."))
+          print(os.listdir("preprocessing"))
+
       - name: Upload to Google Drive
         env:
           GDRIVE_REFRESH_TOKEN: ${{ secrets.GDRIVE_REFRESH_TOKEN }}
