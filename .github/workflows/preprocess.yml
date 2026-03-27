@@ -29,11 +29,17 @@ jobs:
         run: |
           python preprocessing/automate_Rohmat-sunaryo.py
 
-      - name: Cek file
+      - name: Cek model path
         run: |
-          print(os.getcwd())
-          print(os.listdir("."))
-          print(os.listdir("preprocessing"))
+          python - <<EOF
+          import os
+
+          path = "preprocessing/model"
+          print("Exists:", os.path.exists(path))
+
+          if os.path.exists(path):
+            print("Isi:", os.listdir(path))
+          EOF
 
       - name: Upload to Google Drive
         env:
