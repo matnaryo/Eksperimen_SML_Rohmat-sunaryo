@@ -12,7 +12,7 @@ def main():
 
     upload_model(
         service,
-        "model",
+        "preprocessing/model",
         root_folder_id,
     )
 
