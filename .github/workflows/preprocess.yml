@@ -1,7 +1,12 @@
 name: Preprocess RAW File
 
 on:
-  workflow_dispatch: # bisa dijalankan manual
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main # bisa dijalankan manual
 
 jobs:
   preprocess:
