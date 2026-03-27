@@ -27,4 +27,4 @@ jobs:
 
       - name: Run preprocessing
         run: |
-          python ../preprocessing/automate_Rohmat-sunaryo.py
+          python preprocessing/automate_Rohmat-sunaryo.py
