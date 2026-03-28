@@ -29,14 +29,18 @@ def main():
     upload_model(service, local_model_folder, model_folder_id)
     upload_model(service, local_eda_folder, model_folder_id)
     # upload csv
-    csv_files = [
+    model_csv_files = [
         "preprocessing/train_processed.csv",
         "preprocessing/test_processed.csv",
+    ]
+    eda_csv_files = [
         "preprocessing/eda/eda_summary.txt",
     ]
 
-    for file in csv_files:
-        upload_file(service, file, run_folder_id)
+    for file in model_csv_files:
+        upload_file(service, file, model_folder_id)
+    for file in eda_csv_files:
+        upload_file(service, file, eda_folder_id)
 
 
 if __name__ == "__main__":
