@@ -17,17 +17,19 @@ MODEL_DIR = os.path.join(BASE_DIR, "")
 
 train_path = os.path.join(MODEL_DIR, "../loan_default.csv")
 save_dir = os.path.join(MODEL_DIR, "model")
+eda_dir = os.path.join(MODEL_DIR, "eda")
 
 
-def auto_preprocess(train_path, save_dir=""):
+def auto_preprocess(train_path, eda_dir="", save_dir=""):
     # Buat direktori penyimpanan model
     os.makedirs(save_dir, exist_ok=True)
+    os.makedirs(eda_dir, exist_ok=True)
 
     # 3. --- Load data ---
     data = pd.read_csv(train_path)
 
     # 4.--- EDA ---
-    eda_file = os.path.join(save_dir, "../eda_summary.txt")
+    eda_file = os.path.join(eda_dir, "eda_summary.txt")
     with open(eda_file, "w") as f:
         f.write("=== Jumlah baris & kolom ===\n")
         f.write(f"{data.shape}\n\n")
@@ -123,4 +125,4 @@ def auto_preprocess(train_path, save_dir=""):
     return data_train, data_test, train_csv, test_csv
 
 
-auto_preprocess(train_path, save_dir)
+auto_preprocess(train_path, eda_dir, save_dir)
