@@ -20,8 +20,10 @@ def main():
     model_folder_id = create_folder(service, "model", run_folder_id)
     print("Model folder created:", "model")
 
+    local_model_folder = "preprocessing/model"
+
     # upload model folder
-    upload_model(service, model_folder_id, model_folder_id)
+    upload_model(service, local_model_folder, model_folder_id)
 
     # upload csv
     csv_files = [
