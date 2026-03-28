@@ -38,7 +38,7 @@ def main():
     ]
 
     for file in model_csv_files:
-        upload_file(service, file, model_folder_id)
+        upload_file(service, file, run_folder_id)
     for file in eda_csv_files:
         upload_file(service, file, eda_folder_id)
 
