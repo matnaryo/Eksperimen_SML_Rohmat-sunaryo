@@ -19,17 +19,20 @@ def main():
     # buat folder model di dalam run folder
     model_folder_id = create_folder(service, "model", run_folder_id)
     print("Model folder created:", "model")
+    eda_folder_id = create_folder(service, "eda", run_folder_id)
+    print("Model folder created:", "eda")
 
     local_model_folder = "preprocessing/model"
+    local_eda_folder = "preprocessing/eda"
 
     # upload model folder
     upload_model(service, local_model_folder, model_folder_id)
-
+    upload_model(service, local_eda_folder, model_folder_id)
     # upload csv
     csv_files = [
         "preprocessing/train_processed.csv",
         "preprocessing/test_processed.csv",
-        "eda_summary.txt",
+        "preprocessing/eda/eda_summary.txt",
     ]
 
     for file in csv_files:
