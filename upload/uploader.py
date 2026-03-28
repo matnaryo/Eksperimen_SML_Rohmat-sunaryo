@@ -1,6 +1,6 @@
 import os
 from googleapiclient.http import MediaFileUpload
-from .drive import get_or_create_folder
+from .drive import create_folder
 
 
 def upload_file(service, file_path, folder_id):
