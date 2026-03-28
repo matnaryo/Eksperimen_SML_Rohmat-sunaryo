@@ -5,9 +5,6 @@ from .drive import create_folder
 
 
 def upload_file(service, file_path, folder_id):
-    from googleapiclient.http import MediaFileUpload
-    import os
-
     file_name = os.path.basename(file_path)
 
     file_metadata = {"name": file_name, "parents": [folder_id]}

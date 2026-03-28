@@ -41,8 +41,8 @@ def main():
     # upload file csv sesuai kriteria
     for file in model_csv_files:
         upload_file(service, file, app_dir)
-    for file in eda_csv_files:
-        upload_file(service, file, eda_dir)
+    for csv in eda_csv_files:
+        upload_file(service, csv, eda_dir)
 
 
 if __name__ == "__main__":
