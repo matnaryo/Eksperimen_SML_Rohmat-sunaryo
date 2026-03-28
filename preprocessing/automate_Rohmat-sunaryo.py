@@ -25,10 +25,10 @@ def auto_preprocess(train_path, eda_dir="", save_dir=""):
     os.makedirs(save_dir, exist_ok=True)
     os.makedirs(eda_dir, exist_ok=True)
 
-    # 3. --- Load data ---
+    # LOAD DATA
     data = pd.read_csv(train_path)
 
-    # 4.--- EDA ---
+    # EDA
     eda_file = os.path.join(eda_dir, "eda_summary.txt")
     with open(eda_file, "w") as f:
         f.write("=== Jumlah baris & kolom ===\n")
@@ -61,17 +61,68 @@ def auto_preprocess(train_path, eda_dir="", save_dir=""):
         f.write("=== Data Duplikat ===\n")
         f.write(f"{data.duplicated().sum()}\n\n")
 
+    # VISUALISASI
+    # Histogram semua fitur numerik
+    data.hist(figsize=(12, 10))
+    plt.tight_layout()
+    plt.savefig(f"{eda_dir}/histogram_all_features.png")
+    plt.close()
+
+    # Distribusi Default
+    plt.figure(figsize=(8, 6))
+    sns.countplot(x="Default", data=data)
+    plt.title("Distribusi Default")
+    plt.savefig(f"{eda_dir}/countplot_default.png")
+    plt.close()
+
+    # Boxplot fitur numerik penting
+    cols = ["Income", "LoanAmount", "InterestRate", "DTIRatio", "CreditScore"]
+    plt.figure(figsize=(15, 10))
+    for i, col in enumerate(cols, 1):
+        plt.subplot(2, 3, i)
+        sns.boxplot(x="Default", y=col, data=data)
+        plt.title(col)
+    plt.tight_layout()
+    plt.savefig(f"{eda_dir}/boxplot_important_features.png")
+    plt.close()
+
+    # Korelasi dengan target Default
+    corr_target = data.corr(numeric_only=True)["Default"].sort_values(ascending=False)
+    plt.figure(figsize=(8, 6))
+    corr_target.plot(kind="barh")
+    plt.title("Correlation with Default")
+    plt.tight_layout()
+    plt.savefig(f"{eda_dir}/corr_with_default.png")
+    plt.close()
+
+    # Matriks korelasi antar fitur
+    plt.figure(figsize=(10, 8))
+    sns.heatmap(data.corr(numeric_only=True), annot=True, cmap="coolwarm")
+    plt.title("Correlation Matrix")
+    plt.tight_layout()
+    plt.savefig(f"{eda_dir}/correlation_matrix.png")
+    plt.close()
+
+    # Boxplot semua fitur untuk outlier
+    for fitur in data:
+        plt.figure(figsize=(10, 6))
+        sns.boxplot(x=data[fitur])
+        plt.title(f"Box Plot dari {fitur}")
+        plt.tight_layout()
+        plt.savefig(f"{eda_dir}/boxplot_{fitur}.png")
+        plt.close()
+
     # Drop kolom LoanID
     data.drop("LoanID", axis=1, inplace=True)
 
-    # 5. --- Split Data Latih dan Data Test ---
+    # Split Data Latih dan Data Test
     data_train, data_test = train_test_split(
         data, test_size=0.05, random_state=42, shuffle=True
     )
     data_train.reset_index(drop=True, inplace=True)
     data_test.reset_index(drop=True, inplace=True)
 
-    # 6. --- Pisahkan numerik & kategorikal ---
+    # Pisahkan numerik & kategorikal
     numerical_columns = data_train.select_dtypes(
         include=["int64", "float64"]
     ).columns.tolist()
@@ -79,7 +130,7 @@ def auto_preprocess(train_path, eda_dir="", save_dir=""):
         include=["object", "category"]
     ).columns.tolist()
 
-    # 7. --- Scaling numerik ---
+    # Scaling numerik
     for col in numerical_columns:
         scaler = MinMaxScaler()
         # Fit & transform kolom pada train
@@ -90,7 +141,7 @@ def auto_preprocess(train_path, eda_dir="", save_dir=""):
         # Simpan scaler per kolom
         joblib.dump(scaler, os.path.join(save_dir, f"scaler_{col}.joblib"))
 
-    # 8. --- Encoding kategorikal ---
+    # Encoding kategorikal
     for col in categorical_columns:
         encoder = OneHotEncoder(sparse_output=False, handle_unknown="ignore")
         encoder.fit(data_train[[col]])
@@ -112,7 +163,7 @@ def auto_preprocess(train_path, eda_dir="", save_dir=""):
         # Simpan scaler per kolom
         joblib.dump(encoder, f"{save_dir}/encoder_{col}.joblib")
 
-    # 9. --- Simpan CSV hasil preprocessing ---
+    # Simpan CSV hasil preprocessing
     train_csv = f"{save_dir}/../train_processed.csv"
     data_train.to_csv(train_csv, index=False)
     if data_test is not None:
