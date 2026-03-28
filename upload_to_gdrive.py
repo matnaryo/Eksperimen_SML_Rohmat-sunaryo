@@ -14,11 +14,14 @@ def main():
     # buat folder baru tiap run
     folder_name = generate_folder_name()
     run_folder_id = create_folder(service, folder_name, root_folder_id)
-
     print("Folder created:", folder_name)
 
+    # buat folder model di dalam run folder
+    model_folder_id = create_folder(service, "model", run_folder_id)
+    print("Model folder created:", "model")
+
     # upload model folder
-    upload_model(service, "preprocessing/model", run_folder_id)
+    upload_model(service, model_folder_id, model_folder_id)
 
     # upload csv
     csv_files = [
