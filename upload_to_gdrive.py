@@ -27,7 +27,7 @@ def main():
 
     # upload direktori local ke gdrive sesuai kriteria
     upload_model(service, local_model_dir, model_dir)
-    upload_model(service, local_eda_dir, model_dir)
+    upload_model(service, local_eda_dir, eda_dir)
 
     # seleksi file csv dari local runner
     model_csv_files = [
