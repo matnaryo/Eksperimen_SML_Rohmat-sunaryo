@@ -1,11 +1,16 @@
 from googleapiclient.discovery import build
+from datetime import datetime
 
 
 def get_drive_service(credentials):
     return build("drive", "v3", credentials=credentials)
 
 
-def get_or_create_folder(service, name, parent_id):
+def generate_folder_name():
+    return datetime.now().strftime("run_%Y-%m-%d_%H-%M-%S")
+
+
+def create_folder(service, name, parent_id):
     query = (
         f"name='{name}' and "
         f"'{parent_id}' in parents and "

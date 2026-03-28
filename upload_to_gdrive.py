@@ -1,7 +1,7 @@
 import os
 from upload.auth import get_credentials
-from upload.drive import get_drive_service
-from upload.uploader import upload_model
+from upload.drive import get_drive_service, create_folder, generate_folder_name
+from upload.uploader import upload_model, upload_file
 
 
 def main():
@@ -10,11 +10,23 @@ def main():
     credentials = get_credentials()
     service = get_drive_service(credentials)
 
-    upload_model(
-        service,
-        "model",
-        root_folder_id,
-    )
+    # buat folder baru tiap run
+    folder_name = generate_folder_name()
+    run_folder_id = create_folder(service, folder_name, root_folder_id)
+
+    print("Folder created:", folder_name)
+
+    # upload model folder
+    upload_model(service, "preprocessing/model", run_folder_id)
+
+    # upload csv
+    csv_files = [
+        "preprocessing/train_processed.csv",
+        "preprocessing/test_processed.csv",
+    ]
+
+    for file in csv_files:
+        upload_file(service, file, run_folder_id)
 
 
 if __name__ == "__main__":

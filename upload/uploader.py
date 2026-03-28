@@ -3,6 +3,21 @@ from googleapiclient.http import MediaFileUpload
 from .drive import get_or_create_folder
 
 
+def upload_file(service, file_path, folder_id):
+    from googleapiclient.http import MediaFileUpload
+    import os
+
+    file_name = os.path.basename(file_path)
+
+    file_metadata = {"name": file_name, "parents": [folder_id]}
+
+    media = MediaFileUpload(file_path, resumable=True)
+
+    service.files().create(body=file_metadata, media_body=media, fields="id").execute()
+
+    print(f"Uploaded file: {file_name}")
+
+
 def upload_model(service, local_folder, root_folder_id):
     for root, dirs, files in os.walk(local_folder):
         # Tentukan path relatif
