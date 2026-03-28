@@ -1,2 +1,5 @@
 preprocessing/test_processed.csv
 preprocessing/train_processed.csv
+client_secret.json
+.env
+*.json
