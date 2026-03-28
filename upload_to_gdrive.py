@@ -34,9 +34,6 @@ def main():
         "preprocessing/train_processed.csv",
         "preprocessing/test_processed.csv",
     ]
-    eda_csv_files = [
-        "preprocessing/eda/eda_summary.txt",
-    ]
 
     # upload file csv sesuai kriteria
     for file in model_csv_files:
