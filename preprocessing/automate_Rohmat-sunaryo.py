@@ -27,7 +27,7 @@ def auto_preprocess(train_path, save_dir=""):
     data = pd.read_csv(train_path)
 
     # 4.--- EDA ---
-    eda_file = os.path.join(save_dir, "eda_summary.txt")
+    eda_file = os.path.join(save_dir, "../eda_summary.txt")
     with open(eda_file, "w") as f:
         f.write("=== Jumlah baris & kolom ===\n")
         f.write(f"{data.shape}\n\n")

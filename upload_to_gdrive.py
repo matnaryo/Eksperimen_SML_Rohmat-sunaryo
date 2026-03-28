@@ -29,6 +29,7 @@ def main():
     csv_files = [
         "preprocessing/train_processed.csv",
         "preprocessing/test_processed.csv",
+        "eda_summary.txt",
     ]
 
     for file in csv_files:
